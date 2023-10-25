@@ -1,5 +1,6 @@
 package me.theosoch.personnages;
 
+import java.util.Collections;
 import java.util.Random;
 
 public class GrandMere extends Humain {
@@ -18,13 +19,45 @@ public class GrandMere extends Humain {
 		et pourra plus facilement être exclu des choix */
 		TRAITRE("traitre");
 		
+		//
+		
+		private interface Filter { boolean filter(TypeHumain type); }
+		
+		//
+		
+		public static TypeHumain[] filterValues(TypeHumain.Filter filter) {
+			TypeHumain[] raw = TypeHumain.filterValues(type -> type != TypeHumain.TRAITRE);
+			TypeHumain[] filtered = new TypeHumain[raw.length];
+			int filteredCount = 0;
+			
+			for(int i = 0; i < raw.length; i++) {
+				TypeHumain type = raw[i];
+				if(filter.filter(type)) {
+					filtered[filteredCount] = type;
+					filteredCount += 1;
+				}
+			}
+			
+			TypeHumain[] result = new TypeHumain[filteredCount];
+			System.arraycopy(filtered, 0, result, 0, filteredCount);
+			
+			return result;
+		}
+		
+		//		
+		
 		private final String nom;
+		
+		//		
 		
 		private TypeHumain(String nom) {
 			this.nom = nom;
 		}
 		
+		//		
+		
 		public String getNom() { return this.nom; }
+		
 	}
 	
 	//
@@ -48,7 +81,7 @@ public class GrandMere extends Humain {
 	//	
 	
 	private String humainHasard() {
-		TypeHumain[] types = TypeHumain.values();
+		TypeHumain[] types = TypeHumain.filterValues(type -> type != TypeHumain.TRAITRE);
 		
 		return types[this.random.nextInt(0, types.length-1)].getNom();
 	}
