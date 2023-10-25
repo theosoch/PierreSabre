@@ -41,8 +41,8 @@ public class GrandMere extends Humain {
 	
 	@Override
 	protected void memoriser(Humain h) {
-		if(this.nombreConnaissances() < NOMBRE_CONNAISSANCES_LIMITE) super.memoriser(h);
-		else this.parler("Oh ma tête ! Je ne peux plus retenir le nom d'une personne supplémentaire !");
+		if(this.nombreConnaissances() < NOMBRE_CONNAISSANCES_LIMITE) { super.memoriser(h); }
+		else { this.parler("Oh ma tête ! Je ne peux plus retenir le nom d'une personne supplémentaire !"); }
 	}
 	
 	//	
@@ -57,13 +57,15 @@ public class GrandMere extends Humain {
 		Humain[] connaissances = this.connaissances();
 		int nombreConnaissances = this.nombreConnaissances();
 		
-		for(int i = 0; i < nombreConnaissances; ++i) {
+		for(int i = 0; i < nombreConnaissances; i++) {
 			Humain connaissance = connaissances[i];
 			
-			if(connaissance instanceof Traitre)
+			if(connaissance instanceof Traitre) {
 				this.parler("Je sais que " + connaissance.getNom() + " est un " + TypeHumain.TRAITRE.getNom() + ". Petit chenapan !");
-			else
+			}
+			else {
 				this.parler("Je crois que " + connaissance.getNom() + " est un " + this.humainHasard());
+			}
 		}
 	}
 	

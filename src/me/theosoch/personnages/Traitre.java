@@ -36,7 +36,7 @@ public class Traitre extends Samourai {
 			
 			this.niveauTraitrise++;
 		}
-		else this.parler("Mince je ne peux plus rançonner personne sinon un samouraï risque de me démasquer !");
+		else { this.parler("Mince je ne peux plus rançonner personne sinon un samouraï risque de me démasquer !"); }
 	}
 	
 	public void faireLeGentil() {
@@ -53,9 +53,9 @@ public class Traitre extends Samourai {
 			
 			this.parler("Merci " + this.getNom() + ". Vous êtes quelqu'un de bien.");
 			
-			if(this.niveauTraitrise > 1) this.niveauTraitrise--;
+			if(this.niveauTraitrise > 1) { this.niveauTraitrise--; }
 		}
-		else this.parler("Je ne peux faire ami ami avec personne car je ne connais personne ! Snif.");
+		else { this.parler("Je ne peux faire ami ami avec personne car je ne connais personne ! Snif."); }
 	}
 	
 }

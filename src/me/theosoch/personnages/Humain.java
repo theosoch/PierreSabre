@@ -50,10 +50,12 @@ public class Humain {
 	}
 	
 	public void acheter(String bien, int prix) {
-		if(this.getArgent() >= prix)
+		if(this.getArgent() >= prix) {
 			this.parler("J'ai " + this.getArgent() + " sous en poche. Je vais pouvoir m'offrir " + bien + " à " + prix + " sous.");
-		else
+		}
+		else {
 			this.parler("Je n'ai que " + this.getArgent() + " sous en poche. Je ne peux même pas m'offrir " + bien + " à " + prix + " sous.");
+		}
 		this.perdreArgent(prix);
 	}
 	
@@ -80,7 +82,7 @@ public class Humain {
 	
 	protected void memoriser(Humain h) {
 		if(this.nombreConnaissances() == this.connaissances.length) {
-			for(int i = 0; i < this.nombreConnaissances()-1; ++i)
+			for(int i = 0; i < this.nombreConnaissances()-1; i++)
 				this.connaissances[i] = this.connaissances[i+1];
 		}
 		
@@ -88,7 +90,7 @@ public class Humain {
 			this.connaissances[this.nombreConnaissances()] = h;
 			this.nbConnaissances++;
 		}
-		else this.connaissances[this.nbConnaissances-1] = h;
+		else { this.connaissances[this.nbConnaissances-1] = h; }
 	}
 	
 	//
@@ -97,7 +99,7 @@ public class Humain {
 		StringBuilder texteBuilder = new StringBuilder();
 		texteBuilder.append("Je connais beaucoup de monde dont :");
 		
-		for(int i = 0; i < this.nbConnaissances; ++i) {
+		for(int i = 0; i < this.nbConnaissances; i++) {
 			texteBuilder.append("\n - " + this.connaissances[i].getNom());
 		}
 		
