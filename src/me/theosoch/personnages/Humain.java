@@ -50,11 +50,13 @@ public class Humain {
 	}
 	
 	public void acheter(String bien, int prix) {
-		if(this.getArgent() >= prix) {
-			this.parler("J'ai " + this.getArgent() + " sous en poche. Je vais pouvoir m'offrir " + bien + " à " + prix + " sous.");
+		int argent = this.getArgent();
+		
+		if(argent >= prix) {
+			this.parler("J'ai " + argent + " sous en poche. Je vais pouvoir m'offrir " + bien + " à " + prix + " sous.");
 		}
 		else {
-			this.parler("Je n'ai que " + this.getArgent() + " sous en poche. Je ne peux même pas m'offrir " + bien + " à " + prix + " sous.");
+			this.parler("Je n'ai que " + argent + " sous en poche. Je ne peux même pas m'offrir " + bien + " à " + prix + " sous.");
 		}
 		this.perdreArgent(prix);
 	}
