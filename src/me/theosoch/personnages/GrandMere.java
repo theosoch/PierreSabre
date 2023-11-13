@@ -1,6 +1,5 @@
 package me.theosoch.personnages;
 
-import java.util.Collections;
 import java.util.Random;
 
 public class GrandMere extends Humain {
