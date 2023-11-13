@@ -2,7 +2,7 @@ package me.theosoch.personnages;
 
 public class Humain {
 	
-	private static int CONNAISSANCES_MAX = 30;
+	private static final int CONNAISSANCES_MAX = 30;
 	
 	//	
 
@@ -11,7 +11,7 @@ public class Humain {
 	
 	private int argent;
 	
-	private int nbConnaissances = 0;
+	private int indiceFinConnaissances = 0;
 	private Humain[] connaissances = new Humain[Humain.CONNAISSANCES_MAX];
 	
 	//
@@ -29,7 +29,10 @@ public class Humain {
 	// Nécéssaire pour les classes héritiées
 	protected int getArgent() { return this.argent; }
 	
-	public int nombreConnaissances() { return this.nbConnaissances; }
+	public int nombreConnaissances() {
+		final Humain[] currentConnaissances = this.connaissances();
+		return currentConnaissances[currentConnaissances.length-1] == null ? this.indiceFinConnaissances : currentConnaissances.length;
+	}
 	
 	public final Humain[] connaissances() { return this.connaissances; }
 	
@@ -50,13 +53,13 @@ public class Humain {
 	}
 	
 	public void acheter(String bien, int prix) {
-		int argent = this.getArgent();
+		int currentArgent = this.getArgent();
 		
-		if(argent >= prix) {
-			this.parler("J'ai " + argent + " sous en poche. Je vais pouvoir m'offrir " + bien + " à " + prix + " sous.");
+		if(currentArgent >= prix) {
+			this.parler("J'ai " + currentArgent + " sous en poche. Je vais pouvoir m'offrir " + bien + " à " + prix + " sous.");
 		}
 		else {
-			this.parler("Je n'ai que " + argent + " sous en poche. Je ne peux même pas m'offrir " + bien + " à " + prix + " sous.");
+			this.parler("Je n'ai que " + currentArgent + " sous en poche. Je ne peux même pas m'offrir " + bien + " à " + prix + " sous.");
 		}
 		this.perdreArgent(prix);
 	}
@@ -71,28 +74,22 @@ public class Humain {
 	
 	//
 	
-	public void faireConnaissance(Humain homme2) {
+	public void faireConnaissance(Humain humain) {
 		this.direBonjour();
-		homme2.repondre(this);
-		this.memoriser(homme2);
+		humain.repondre(this);
+		this.memoriser(humain);
 	}
 	
-	public void repondre(Humain h) {
+	public void repondre(Humain humain) {
 		this.direBonjour();
-		this.memoriser(h);
+		this.memoriser(humain);
 	}
 	
-	protected void memoriser(Humain h) {
-		if(this.nombreConnaissances() == this.connaissances.length) {
-			for(int i = 0; i < this.nombreConnaissances()-1; i++)
-				this.connaissances[i] = this.connaissances[i+1];
-		}
+	protected void memoriser(Humain humain) {
+		final int nbConnaissancesMax = this.connaissances().length;
 		
-		if(this.nombreConnaissances() < this.connaissances.length) {
-			this.connaissances[this.nombreConnaissances()] = h;
-			this.nbConnaissances++;
-		}
-		else { this.connaissances[this.nbConnaissances-1] = h; }
+		this.connaissances[this.indiceFinConnaissances] = humain;
+		this.indiceFinConnaissances = (this.indiceFinConnaissances + 1) % nbConnaissancesMax;
 	}
 	
 	//
@@ -100,8 +97,10 @@ public class Humain {
 	public void listerConnaissances() {
 		StringBuilder texteBuilder = new StringBuilder();
 		texteBuilder.append("Je connais beaucoup de monde dont :");
+
+		final int nbConnaissances = this.nombreConnaissances();
 		
-		for(int i = 0; i < this.nbConnaissances; i++) {
+		for(int i = 0; i < nbConnaissances; i++) {
 			texteBuilder.append("\n - " + this.connaissances[i].getNom());
 		}
 		

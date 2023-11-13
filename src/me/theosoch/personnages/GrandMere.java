@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class GrandMere extends Humain {
 
-	private static int NOMBRE_CONNAISSANCES_LIMITE = 5;
+	private static final int NOMBRE_CONNAISSANCES_LIMITE = 5;
 	
 	private enum TypeHumain {
 		HABITANT("habitant"),
@@ -25,7 +25,7 @@ public class GrandMere extends Humain {
 		//
 		
 		public static TypeHumain[] filterValues(TypeHumain.Filter filter) {
-			TypeHumain[] raw = TypeHumain.filterValues(type -> type != TypeHumain.TRAITRE);
+			TypeHumain[] raw = TypeHumain.values();
 			TypeHumain[] filtered = new TypeHumain[raw.length];
 			int filteredCount = 0;
 			
@@ -72,8 +72,8 @@ public class GrandMere extends Humain {
 	//
 	
 	@Override
-	protected void memoriser(Humain h) {
-		if(this.nombreConnaissances() < NOMBRE_CONNAISSANCES_LIMITE) { super.memoriser(h); }
+	protected void memoriser(Humain humain) {
+		if(this.nombreConnaissances() < NOMBRE_CONNAISSANCES_LIMITE) { super.memoriser(humain); }
 		else { this.parler("Oh ma tête ! Je ne peux plus retenir le nom d'une personne supplémentaire !"); }
 	}
 	
@@ -86,7 +86,7 @@ public class GrandMere extends Humain {
 	}
 	
 	public void ragoter() {
-		Humain[] connaissances = this.connaissances();
+		final Humain[] connaissances = this.connaissances();
 		int nombreConnaissances = this.nombreConnaissances();
 		
 		for(int i = 0; i < nombreConnaissances; i++) {
